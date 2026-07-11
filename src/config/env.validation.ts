@@ -4,6 +4,7 @@ import { z } from 'zod';
 export const envSchema = z.object({
   PORT: z.coerce.number().int().min(1).default(3003),
   STRIPE_SECRET_KEY: z.string().min(1),
+  STRIPE_WEBHOOK_SECRET: z.string().min(1),
 });
 
 export type EnvVars = z.infer<typeof envSchema>;
