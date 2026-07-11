@@ -1,14 +1,17 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import Stripe from 'stripe';
+import { PaymentSessionDto } from './dto/payment-session.dto';
 
 @Controller('payments')
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
   @Post('create-payment-session')
-  async createPaymentSession(): Promise<Stripe.Checkout.Session> {
-    return this.paymentsService.createPaymentSession();
+  async createPaymentSession(
+    @Body() paymentSessionDto: PaymentSessionDto,
+  ): Promise<Stripe.Checkout.Session> {
+    return this.paymentsService.createPaymentSession(paymentSessionDto);
   }
 
   @Get('success')
