@@ -6,10 +6,14 @@ import {
   IsNumber,
   IsPositive,
   IsString,
+  IsUUID,
   ValidateNested,
 } from 'class-validator';
 
 export class PaymentSessionDto {
+  @IsUUID()
+  orderId: string;
+
   @IsString()
   currency: string;
 
