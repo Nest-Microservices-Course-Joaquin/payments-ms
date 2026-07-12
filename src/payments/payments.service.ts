@@ -59,6 +59,16 @@ export class PaymentsService {
       return;
     }
 
+    switch (event.type) {
+      case 'charge.succeeded':
+        // TODO: llamar al microservicio de orders
+        console.log('Event: ', event);
+        break;
+
+      default:
+        console.log('Unhandled event type: ', event.type);
+    }
+
     return res.status(200).json({ sig });
   }
 }
