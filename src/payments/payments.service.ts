@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 import { envs } from '../config/env.validation';
 import { PaymentSessionDto } from './dto/payment-session.dto';
 import { Request, Response } from 'express';
+import { PaymentSessionUrls } from './interfaces/payment-session-urls.interface';
 
 @Injectable()
 export class PaymentsService {
@@ -10,7 +11,7 @@ export class PaymentsService {
 
   async createPaymentSession(
     paymentSessionDto: PaymentSessionDto,
-  ): Promise<Stripe.Checkout.Session> {
+  ): Promise<PaymentSessionUrls> {
     const { currency, items, orderId } = paymentSessionDto;
 
     const lineItems = items.map((item) => ({
@@ -35,7 +36,11 @@ export class PaymentsService {
       cancel_url: envs.CANCEL_STRIPE_URL,
     });
 
-    return session;
+    return {
+      cancelUrl: session.cancel_url,
+      successUrl: session.success_url,
+      url: session.url,
+    };
   }
 
   async stripeWebhook(req: Request, res: Response) {

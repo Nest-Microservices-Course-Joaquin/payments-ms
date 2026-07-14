@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
-import Stripe from 'stripe';
 import { PaymentSessionDto } from './dto/payment-session.dto';
 import type { Request, Response } from 'express';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { PaymentSessionUrls } from './interfaces/payment-session-urls.interface';
 
 @Controller('payments')
 export class PaymentsController {
@@ -13,7 +13,7 @@ export class PaymentsController {
   @MessagePattern({ cmd: 'create_payment_session' })
   async createPaymentSession(
     @Payload() paymentSessionDto: PaymentSessionDto,
-  ): Promise<Stripe.Checkout.Session> {
+  ): Promise<PaymentSessionUrls> {
     return this.paymentsService.createPaymentSession(paymentSessionDto);
   }
 
