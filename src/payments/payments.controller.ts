@@ -3,12 +3,14 @@ import { PaymentsService } from './payments.service';
 import Stripe from 'stripe';
 import { PaymentSessionDto } from './dto/payment-session.dto';
 import type { Request, Response } from 'express';
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller('payments')
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
   @Post('create-payment-session')
+  @MessagePattern('create_payment_session')
   async createPaymentSession(
     @Body() paymentSessionDto: PaymentSessionDto,
   ): Promise<Stripe.Checkout.Session> {
